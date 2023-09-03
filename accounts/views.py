@@ -126,29 +126,8 @@ def register(request):
                 else:
                     user = User.objects.create_user(username=firstname, first_name=firstname, last_name=lastname, password=password1, email= email)
                     user.save()
-                    
-                    #User activation
-                    current_site = get_current_site(request)
-                    email_subject= "Please activate your account"
-                    message =render_to_string('myproject/account_verification_email.html', {
-                        'user': user, 
-                        'domain':current_site.domain,
-                        'uid':urlsafe_base64_encode(force_bytes(user.pk)), 
-                        'token': default_token_generator.make_token(user),
-                    })
-                    to_email =email
-                    email =EmailMessage(email_subject, message, to=[to_email])
-                    email.send()
-                    # send_mail(
-                    #     'Subject here',
-                    #     'Here is the message.',
-                    #     'ranamagar.prashant@gmail.com',
-                    #     [to_email],
-                    #     fail_silently=False,
-                    # )
 
-
-                    messages.success(request, 'Thank you for registring with us. We have send you a verification email. Please verify it.')
+                    messages.success(request, 'Thank you for registring with us.')
                     
                     return redirect('login')
         else:
